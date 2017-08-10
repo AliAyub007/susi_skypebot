@@ -15,7 +15,7 @@ spec:
   - host: susi-skype.tk
     http:
       paths:
-      - path: /*
+      - path: /api/*
         backend:
           serviceName: skype
           servicePort: 80
