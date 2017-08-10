@@ -4,13 +4,13 @@ metadata:
   name: skype
   namespace: skype
   annotations:
-    kubernetes.io/ingress.class: "nginx"
+    kubernetes.io/ingress.class: "gce"
 spec:
   rules:
   - host: susi-skype.tk
     http:
       paths:
-      - path: /api/messages
+      - path: /*
         backend:
           serviceName: skype
           servicePort: 80
