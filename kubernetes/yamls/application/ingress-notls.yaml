@@ -14,7 +14,3 @@ spec:
         backend:
           serviceName: skype
           servicePort: 80
-      - path: /api/messages
-        backend:
-          serviceName: skype
-          servicePort: 80
