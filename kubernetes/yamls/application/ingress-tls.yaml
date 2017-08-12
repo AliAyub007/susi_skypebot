@@ -9,10 +9,10 @@ metadata:
 spec:
   tls:
   - hosts:
-    - susi-skype.tk
-    secretName: skype-tls
+    - susi-skypebot.tk
+    secretName: skypebot-tls
   rules:
-  - host: susi-skype.tk
+  - host: susi-skypebot.tk
     http:
       paths:
       - path: /
