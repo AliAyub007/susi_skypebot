@@ -19,7 +19,7 @@ setInterval(function() {
 }, 1200000);
 
 var bot = new builder.UniversalBot(connector);
-server.post('/webhook', connector.listen());
+server.post('/api/messages', connector.listen());
 //When bot is added by user
 bot.on('contactRelationUpdate', function(message) {
     if (message.action === 'add') {
