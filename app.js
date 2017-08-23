@@ -43,7 +43,7 @@ bot.dialog('/', function(session) {
     };
     session.sendTyping();
     var checkText = session.message.text;
-    console.log(checkText);
+    console.log(checkText.toUpperCase);
     if(checkText == "GET STARTED"){
         var initial_card = new builder.HeroCard(session)
                 .title('SUSI AI')
