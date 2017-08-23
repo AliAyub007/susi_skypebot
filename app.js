@@ -42,7 +42,8 @@ bot.dialog('/', function(session) {
         }
     };
     session.sendTyping();
-    if(session.message.text == "get started"){
+    var checkText = session.message.text;
+    if(checkText.toUpperCase == "GET STARTED"){
         var initial_card = new builder.HeroCard(session)
                 .title('SUSI AI')
                 .subtitle('Open Source personal assistant')
@@ -55,7 +56,7 @@ bot.dialog('/', function(session) {
                 .addAttachment(initial_card);
         session.sendTyping();
         session.send(reply);
-    } else if(session.message.text == "start chatting"){
+    } else if(checkText.toUpperCase == "START CHATTING"){
         var chat_card = new builder.ThumbnailCard(session)
             .title('Sample Queries')
             .text('You can try the following:')
