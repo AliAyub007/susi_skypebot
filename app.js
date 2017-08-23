@@ -127,6 +127,10 @@ bot.dialog('/', function(session) {
             session.sendTyping();
             session.send(reply);
 
+        } else {
+            var msg = "Oops looks like SUSI is taking a break try again later."
+            session.sendTyping();
+            session.say(msg, msg);
         }
     })
     }
