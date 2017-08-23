@@ -43,7 +43,6 @@ bot.dialog('/', function(session) {
     };
     session.sendTyping();
     var checkText = session.message.text;
-    checkText = checkText.toUpperCase;
     console.log(checkText);
     if(checkText == "GET STARTED"){
         var initial_card = new builder.HeroCard(session)
