@@ -32,7 +32,8 @@ bot.on('contactRelationUpdate', function(message) {
 });
 //getting response from SUSI API upon receiving messages from User
 bot.dialog('/', function(session) {
-    session.sendTyping();
+    if(session.message.type = "message"){
+        session.sendTyping();
     var options = {
         method: 'GET',
         url: 'http://api.susi.ai/susi/chat.json',
@@ -42,6 +43,7 @@ bot.dialog('/', function(session) {
         }
     };
     session.sendTyping();
+
     if(session.message.text.toLowerCase() == "get started"){
         var initial_card = new builder.HeroCard(session)
                 .title('SUSI AI')
@@ -133,5 +135,6 @@ bot.dialog('/', function(session) {
             session.say(msg, msg);
         }
     })
+    }
     }
 });
