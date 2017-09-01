@@ -46,6 +46,114 @@ bot.use({
 
 //getting response from SUSI API upon receiving messages from User
 bot.dialog('/', function(session) {
+    if(session.message.address.channelId === 'slack' && session.message.text.startsWith("@susiai")){
+    session.sendTyping();
+    var query = session.message.text.slice(7);
+    var options = {
+        method: 'GET',
+        url: 'http://api.susi.ai/susi/chat.json',
+        qs: {
+            timezoneOffset: '-330',
+            q: query
+        }
+    };
+    session.sendTyping();
+    
+    if(query.toLowerCase() == "get started"){
+        var initial_card = new builder.HeroCard(session)
+                .title('SUSI AI')
+                .subtitle('Open Source personal assistant')
+                .text('I am built by open source community Fossasia and I am evolving continuously.')            
+                .buttons([
+           builder.CardAction.openUrl(session, 'https://github.com/fossasia/susi_server', 'See Github')
+        ])
+        
+        var reply = new builder.Message(session)
+                .addAttachment(initial_card);
+        session.sendTyping();
+        session.send(reply);
+    } else if(query.toLowerCase() == "start chatting"){
+        var chat_card = new builder.ThumbnailCard(session)
+            .title('Sample Queries')
+            .text('You can try the following:')
+            .buttons([
+                builder.CardAction.imBack(session, 'What is FOSSASIA?', 'What is FOSSASIA?'),
+                builder.CardAction.imBack(session, 'Who is Einstein?', 'Who is Einstein?'),
+                builder.CardAction.imBack(session, 'Borders with INDIA', 'Borders with INDIA')
+            ]);
+        
+        var reply1 = new builder.Message(session)
+                .addAttachment(chat_card);
+        session.sendTyping();
+        session.send(reply1);
+    } else {
+        request(options, function(error, response, body) {
+        if (error) throw new Error(error);
+        var type = (JSON.parse(body)).answers[0].actions;
+        var cards = [];
+        if (type.length == 1 && type[0].type == "answer") {
+            var msg = (JSON.parse(body)).answers[0].actions[0].expression;
+            session.sendTyping();
+            session.say(msg, msg);
+        } else if (type.length == 1 && type[0].type == "table") {
+            var data = (JSON.parse(body)).answers[0].data;
+            var columns = type[0].columns;
+            var key = Object.keys(columns);
+            var msg, title;
+            var count = JSON.parse(body).answers[0].metadata.count;
+
+            for (var i = 0; i < count; i++) {
+                msg = "";
+                msg =key[1].toUpperCase() + ": " + data[i][key[1]] + "\n" + "\n" + key[2].toUpperCase() + ": " + data[i][key[2]];
+                title = data[i][key[0]];
+                cards[i] = new builder.HeroCard(session)
+                    .title(title)
+                    .text(msg)   
+            }
+
+            var reply = new builder.Message(session)
+                .attachmentLayout(builder.AttachmentLayout.carousel)
+                .attachments(cards);
+
+            session.sendTyping();
+            session.send(reply);
+
+        } else if (type.length == 2 && type[1].type == "rss"){
+            var data = JSON.parse(body).answers[0].data;
+            var columns = type[1];
+            var key = Object.keys(columns);
+            var msg,title;
+
+            for (var i = 0; i < 4; i++) {
+            if(i==0){
+                msg = (JSON.parse(body)).answers[0].actions[0].expression;
+                session.sendTyping();
+                session.say(msg, msg);
+            } else{
+                msg =key[2].toUpperCase() + ": " + data[i][key[2]] + "\n" + "\n" + key[3].toUpperCase() + ": " + data[i][key[3]];
+                title  = data[i][key[1]];
+                cards[i] = new builder.HeroCard(session)
+                    .title(title)
+                    .text(msg)
+              }
+            }
+            var reply = new builder.Message(session)
+                .attachmentLayout(builder.AttachmentLayout.carousel)
+                .attachments(cards);
+            
+            session.sendTyping();
+            session.send(reply);
+
+        } else {
+            var msg = "Oops looks like SUSI is taking a break try again later."
+            session.sendTyping();
+            session.say(msg, msg);
+        }
+    })
+    }
+    } else {
+
+    }
     session.sendTyping();
     var options = {
         method: 'GET',
