@@ -46,7 +46,7 @@ bot.use({
 
 //getting response from SUSI API upon receiving messages from User
 bot.dialog('/', function(session) {
-    if(session.message.address.channelId === 'slack' && session.message.text.startsWith("@susiai")){
+    if(session.message.address.channelId === 'slack' && session.message.text.startsWith("@susiai") && session.message.sourceEvent.SlackMessage){
     session.sendTyping();
     var query = session.message.text.slice(7);
     var options = {
