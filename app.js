@@ -152,8 +152,6 @@ bot.dialog('/', function(session) {
     })
     }
     } else {
-
-    }
     session.sendTyping();
     var options = {
         method: 'GET',
@@ -256,5 +254,6 @@ bot.dialog('/', function(session) {
             session.say(msg, msg);
         }
     })
+    }
     }
 });
