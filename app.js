@@ -151,7 +151,7 @@ bot.dialog('/', function(session) {
         }
     })
     }
-    } else {
+    } else if(session.message.address.channelId != 'slack' && !session.message.sourceEvent.SlackMessage){
     session.sendTyping();
     var options = {
         method: 'GET',
